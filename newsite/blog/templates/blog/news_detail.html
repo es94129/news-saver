@@ -1,0 +1,53 @@
+ {% extends "base_generic.html" %}
+
+    <!-- s-content
+    ================================================== -->
+    {% block content %}
+    <section class="s-content s-content--narrow s-content--no-padding-bottom">
+
+        <article class="row format-standard">
+
+            <div class="s-content__header col-full">
+                <h1 class="s-content__header-title">
+                    {{news.title}}
+                </h1>
+                <ul class="s-content__header-meta">
+                    <li class="date">{{news.date}}</li>
+                </ul>
+            </div> <!-- end s-content__header -->
+
+            <div class="col-full s-content__main" style="font-family: Microsoft Yahei">
+                {{news.content | linebreaks}}
+
+                <p class="s-content__tags">
+                    <span>Keywords</span>
+
+                    <span class="s-content__tag-list">
+                    {% for key, value in tags %}
+                    <a href="../search/?s={{key}}">{{key}}</a>
+                    {% endfor %}
+                    </span>
+                </p> <!-- end s-content__tags -->
+
+                <div class="s-content__pagenav">
+                    <div class="s-content__nav">
+                        <div class="s-content__prev">
+                            <a href="{{previous.get_absolute_url}}" rel="prev">
+                                <span>Previous Post</span>
+                                {{previous.title}}
+                            </a>
+                        </div>
+                        <div class="s-content__next">
+                            <a href="{{next.get_absolute_url}}" rel="next">
+                                <span>Next Post</span>
+                                {{next.title}}
+                            </a>
+                        </div>
+                    </div>
+                </div> <!-- end s-content__pagenav -->
+
+            </div> <!-- end s-content__main -->
+
+        </article>
+    </section> <!-- s-content -->
+    {% endblock %}

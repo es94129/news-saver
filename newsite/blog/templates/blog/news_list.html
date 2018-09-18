@@ -1,0 +1,114 @@
+ {% extends "base_generic.html" %}
+
+    <!-- s-content
+    ================================================== -->
+    {% block content %}
+    <section class="s-content">
+        <div class="row narrow">
+            <div class="col-full s-content__header" data-aos="fade-up">
+                <h1>{{num}}条新闻</h1>
+                <p>{{time}}</p>
+
+                <p class="lead">“Why were you lurking under our window?" </br>
+                    "Yes, good point, Petunia! What were you doing under our windows, boy?" </br>
+                    "Listening to the news," said Harry in a resigned voice. </br>
+                    His aunt and uncle exchanged looks of outrage. </br>
+                    "Listening to the news! Again?" </br>
+                    "Well, it changes every day, you see," said Harry.” </br>
+                    ― J.K. Rowling, Harry Potter and the Order of the Phoenix</p>
+            </div>
+        </div>
+
+        
+        <div class="row masonry-wrap">
+            <div class="masonry">
+
+                <div class="grid-sizer"></div>
+                {% if news_list %}
+                {% for new in news_list %}
+                <article class="masonry__brick entry format-standard" data-aos="fade-up">
+                    <div class="entry__text">
+                        <div class="entry__header">
+                            
+                            <div class="entry__date">
+                                <a href="{{ new.get_absolute_url }}">{{new.date}}</a>
+                            </div>
+                            {% autoescape off %}
+                            <h1 class="entry__title"><a href="{{ new.get_absolute_url }}">{{new.title}}</a></h1>
+                            {% endautoescape %}
+                        </div>
+                        <div class="entry__excerpt"  style="font-family:Microsoft Yahei">
+                            <p>
+                                {% autoescape off %}
+                                {{new.intro}}
+                                {% endautoescape %}
+                            </p>
+                        </div>
+                    </div>
+    
+                </article> <!-- end article -->
+                {% endfor %}
+                {% else %}
+                    <blockquote><p>There are no news in the list.</p></blockquote>
+                {% endif %}
+                
+
+            </div> <!-- end masonry -->
+        </div> <!-- end masonry-wrap -->
+
+        {% block pagination %}
+          {% if is_paginated %}
+            <div class="row">
+              <div class="col-full">
+                <nav class="pgn">
+                    <ul>
+                    {% if page_obj.has_previous %}
+                        {% if request.GET.s %}
+                        <li><a class="pgn__prev" href="{{ request.path }}?page={{ page_obj.previous_page_number }}&s={{request.GET.s}}">Prev</a></li>
+                        {% else %}
+                        <li><a class="pgn__prev" href="{{ request.path }}?page={{ page_obj.previous_page_number }}">Prev</a></li>
+                        {% endif%}
+                    {% endif %}
+                        <li><span class="pgn__num current">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span></li>
+                    {% if page_obj.has_next %}
+                        {% if request.GET.s %}
+                        <li><a class="pgn__next" href="{{ request.path }}?page={{ page_obj.next_page_number }}&s={{request.GET.s}}">Next</a></li>
+                        {% else %}
+                        <li><a class="pgn__next" href="{{ request.path }}?page={{ page_obj.next_page_number }}">Next</a></li>
+                        {% endif %}
+                    {% endif %}
+                    </ul>
+                </nav>
+              </div>
+            </div>
+          {% endif %}
+        {% endblock %} 
+
+    </section> <!-- s-content -->
+
+    <!-- s-extra
+    ================================================== -->
+    <section class="s-extra">
+
+        <div class="row bottom tags-wrap">
+            <div class="col-full tags">
+                <h3>Tags</h3>
+
+                <div class="tagcloud">
+                    <a href="/search/?s=中国">中国</a>
+                    <a href="/search/?s=北京">北京</a>
+                    <a href="/search/?s=企业">企业</a>
+                    <a href="/search/?s=世界">世界</a>
+                    <a href="#0">经济</a>
+                    <a href="#0">生活</a>
+                    <a href="#0">科技</a>
+                    <a href="#0">最爱</a>
+                    <a href="/search/?s=Python">Python</a>
+                </div> <!-- end tagcloud -->
+            </div> <!-- end tags -->
+        </div> <!-- end tags-wrap -->
+
+    </section> <!-- end s-extra -->
+
+    
+    {% endblock %}
